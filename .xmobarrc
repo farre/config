@@ -1,0 +1,14 @@
+Config { font     = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
+       , bgColor  = "#000000"
+       , fgColor  = "#BFBFBF"
+       , position = Top
+       , lowerOnStart = True
+       , sepChar  = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ <fc=#00FF00>%uname%</fc> * <fc=#FF0000>%theDate%</fc> * %battery% * %wlan0wi%"
+       , commands = [ Run Date "%a %b %_d %Y * %H:%M:%S" "theDate" 10
+                    , Run StdinReader
+                    , Run BatteryP ["BAT0"] ["-t", "<left>% (<timeleft>)", "--high", "green", "--normal", "yellow", "--low", "red"] 600
+                    , Run Wireless "wlan0" ["-t", "<essid> <qualitybar>", "--low", "lightgreen", "--normal", "green", "--high", "darkgreen"] 100
+                    ]
+       }
