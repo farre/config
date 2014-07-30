@@ -7,7 +7,20 @@ import Control.Monad
 import Data.Maybe
 import Prelude hiding ((.))
 
-config = defaultEmacsConfig { defaultKm = myKeymap }
+config =
+  defaultEmacsConfig { defaultKm = myKeymap
+                     , modeTable = fmap (onMode $ prefIndent) (modeTable defaultConfig)
+                     }
+
+-- Set soft tabs of 4 spaces in width.
+prefIndent :: Mode s -> Mode s
+prefIndent m =
+  m { modeIndentSettings = IndentSettings
+      { expandTabs = True
+      , shiftWidth = 2
+      , tabSize = 4
+      }
+    }
 
 main = yi config
 
