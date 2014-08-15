@@ -1,0 +1,22 @@
+[user]
+	name = Andreas Farre
+	email = andreas.farre@gmail.com
+[push]
+	default = upstream
+[core]
+	editor = yi
+[alias]
+	whoare = "!sh -c 'git log -i --pretty=\"format:%an <%ae>\" --author=\"$1\" | sort -u' -"
+	whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+	branch-name = !git for-each-ref --format='%(refname:short)' $(git symbolic-ref HEAD)
+	log2 = log --oneline --graph --decorate
+	ln = !"OBJ=${1-HEAD}; git log --oneline --decorate $OBJ ^$(git merge-base origin/master $OBJ)^1"
+	ci = "!sh -c 'git describe --tags --match \"core-integration*\" $@'"
+	integrated-by = !"do_ib(){ OBJ=\"$1\"; [ \"$1\" = \"\" ] && echo \"Ref not provided.\" && exit 1; git log --oneline --reverse --decorate --ancestry-path \"$OBJ..origin/master\" | grep -ao 'tag: core-integration-[[:digit:]]\\+' | head -n 1 | sed 's/tag: //'; }; do_ib"
+	latest-ci = "!sh -c 'N=$(git tag -l \"core-integration-*\" | grep -o \"[0-9]*\" | sort -rn | head -1); echo core-integration-$N'"
+	log-words= "log -p --color-words --word-diff-regex='[A-z_][A-z_]*'"
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
